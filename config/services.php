@@ -14,6 +14,9 @@ return [
     |
     */
 
+    'football_data' => [
+        'token' => env('API_FOOTBALL_DATA_TOKEN'),
+    ],
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
