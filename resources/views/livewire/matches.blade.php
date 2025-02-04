@@ -4,6 +4,13 @@
         <div class="flex gap-4">
             <!-- Sidebar de Categorias -->
             <aside class="w-1/4 bg-white rounded-lg shadow p-4">
+             <div class="relative mb-4">
+                    <input
+                        type="text"
+                        placeholder="Buscar Time na Competição"
+                        class="border border-gray-300 p-2 pl-10 pr-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                    >
+                </div>
                 <h3 class="text-lg font-semibold text-gray-700 mb-4">Competições</h3>
                 <ul>
                     @foreach($competitions as $competition)
@@ -57,7 +64,7 @@
                                             <img src="{{ $match['away_team_logo'] }}" alt="{{ $match['away_team'] }}" class="w-12 h-12 object-cover rounded-full">
                                         </td>
                                         <td class="px-4 py-2">{{ $match['away_team'] }}</td>
-                                        <td class="px-4 py-2">{{ \Carbon\Carbon::parse($match['date'])->format('d/m/Y') }}</td>
+                                        <td class="px-4 py-2">{{ \Carbon\Carbon::parse($match['date'])->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
