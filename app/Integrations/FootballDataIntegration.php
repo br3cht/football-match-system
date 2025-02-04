@@ -36,10 +36,6 @@ class FootballDataIntegration
 
     public function getMatches(InputSoccer $inputSoccer): array
     {
-        $params =[
-            'season' => $inputSoccer->filter['season']
-        ];
-
         $response = Http::withHeaders(['X-Auth-Token' => config('services.football_data.token')])->get($this->url . 'competitions/' . $inputSoccer->idCompetition . '/matches/');
 
         return $this->validateResponse($response);
