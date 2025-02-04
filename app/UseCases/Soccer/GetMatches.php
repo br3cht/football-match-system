@@ -21,7 +21,7 @@ class GetMatches
             return [];
         }
 
-        Cache::put('match_competion:' . $input->idCompetition . ':matches', $data);
+        Cache::put('match_competition:' . $input->idCompetition . ':matches', $data);
 
         return $data;
     }
