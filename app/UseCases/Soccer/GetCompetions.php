@@ -15,6 +15,10 @@ class GetCompetions {
     public function execute() {
         $data = $this->footballDataService->getCompetions();
 
+        foreach($data as &$item){
+            $item['teams'] = $this->footballDataService->getTeamByCompetion($item['id']);
+        }
+
         if(!empty($data)){
             Cache::put('competions', $data);
         }
