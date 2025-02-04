@@ -5,8 +5,6 @@ use App\Http\Controllers\SoccerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('matches');
 });
 
-Route::get('/competions', [SoccerController::class, 'getCompetions']);
-Route::get('/standing', [SiteController::class, 'matches']);
