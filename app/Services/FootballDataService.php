@@ -8,7 +8,8 @@ use App\Integrations\FootballDataIntegration;
 class FootballDataService
 {
     public function __construct(
-        private FootballDataIntegration $footballDataIntegration
+        private FootballDataIntegration $footballDataIntegration,
+        private CacheManager $cache
     ) {}
 
     public function getCompetions(): array
@@ -23,7 +24,7 @@ class FootballDataService
         $dataFormated = [];
 
         foreach($data as $item){
-            if(in_array($item['code'], ['PL', 'SA', 'PD', 'FL1', 'BL1', 'DED', 'BSA'])){
+            if(in_array($item['code'], ['PL', 'SA', 'PD', 'FL1', 'BL1', 'DED'])){
                 $dataFormated[] =[
                     'id' => $item['id'],
                     'name' => $item['name'],
@@ -72,5 +73,31 @@ class FootballDataService
         }
 
         return $matches;
+    }
+
+    public function getTeamByCompetion(int $idCompetions)
+    {
+        $data = $this->footballDataIntegration->getTeams($idCompetions);
+
+        if(empty(optional($data)['teams'])){
+            return [];
+        }
+
+        return $this->formatDataTeams($data['teams']);
+    }
+
+    private function formatDataTeams(array $data): array
+    {
+        $dataFormated = [];
+
+        foreach($data as $item){
+            $dataFormated[] = [
+                'id' => $item['id'],
+                'name' => $item['name'],
+                'emblem' => $item['crest']
+            ];
+        }
+
+        return $dataFormated;
     }
 }
