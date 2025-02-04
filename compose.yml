@@ -28,7 +28,7 @@ services:
       restart: unless-stopped
       working_dir: /var/www/html/
       mem_limit: 200M
-      command:
+      command: ['bash', '-c', 'composer install && npm install &&  php artisan migrate --force && npm run build']
       volumes:
           - .:/var/www/html
       networks:
