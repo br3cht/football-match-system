@@ -53,7 +53,12 @@ class FootballDataIntegration
         return $this->validateResponse($response);
     }
 
+    public  function getTeams(int $idCompetition)
+    {
+        $response = Http::withHeaders(['X-Auth-Token' => config('services.football_data.token')])->get($this->url . 'competitions/' . $idCompetition . '/teams/');
 
+        return $this->validateResponse($response);
+    }
 
     private function validateResponse($response): array
     {
