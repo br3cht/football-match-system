@@ -29,28 +29,26 @@ services:
       working_dir: /var/www/html/
       mem_limit: 200M
       command:
-      depends_on:
-        - db
       volumes:
           - .:/var/www/html
       networks:
         - laravel
 
-  db:
-    container_name: laravel-system-db
-    image: postgres:15
-    restart: unless-stopped
-    mem_limit: 400M
-    environment:
-        POSTGRES_USER: root
-        POSTGRES_DB: ${DB_DATABASE}
-        POSTGRES_HOST_AUTH_METHOD: trust
-    volumes:
-        - db:/var/lib/postgresql/data
-    ports:
-      - ${DOCKER_DB_PORT}:5432
-    networks:
-      - laravel
+  # db:
+  #   container_name: laravel-system-db
+  #   image: postgres:15
+  #   restart: unless-stopped
+  #   mem_limit: 400M
+  #   environment:
+  #       POSTGRES_USER: root
+  #       POSTGRES_DB: ${DB_DATABASE}
+  #       POSTGRES_HOST_AUTH_METHOD: trust
+  #   volumes:
+  #       - db:/var/lib/postgresql/data
+  #   ports:
+  #     - ${DOCKER_DB_PORT}:5432
+  #   networks:
+  #     - laravel
 
   cache:
     container_name: laravel-system-redis
