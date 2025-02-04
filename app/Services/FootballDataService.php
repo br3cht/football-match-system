@@ -11,12 +11,37 @@ class FootballDataService
         private FootballDataIntegration $footballDataIntegration
     ) {}
 
+    public function getCompetions(): array
+    {
+        $data = $this->footballDataIntegration->getCompetions();
+
+        return $this->formatDataCompetions($data);
+    }
+
+    private function formatDataCompetions(array $data)
+    {
+        $dataFormated = [];
+
+        foreach($data as $item){
+            if(in_array($item['code'], ['PL', 'SA', 'PD', 'FL1', 'BL1', 'DED', 'BSA'])){
+                $dataFormated[] =[
+                    'id' => $item['id'],
+                    'name' => $item['name'],
+                    'emblem' => $item['emblem'],
+                    'current_matchday' => $item['currentSeason']['currentMatchday']
+                ];
+            }
+        }
+
+        return $dataFormated;
+    }
+
     public function getMatches(InputSoccer $input)
     {
         $data = $this->footballDataIntegration->getMatches($input);
 
-        if(empty($data)){
-            return $data;
+        if(empty($data['matches'])){
+            return [];
         }
 
         $data = $this->formatDataMatches($data);
@@ -27,8 +52,8 @@ class FootballDataService
     private function formatDataMatches(array $data): array
     {
         $matches = [
-            'emblem' => $data['competion']['emblem'],
-            'current_season'  => $data['matches'][0]['currentMatchDay'],
+            'emblem' => $data['competition']['emblem'],
+            'current_season'  => $data['matches'][0]['season']['currentMatchday'],
         ];
 
         foreach($data['matches'] as $item){
@@ -38,10 +63,10 @@ class FootballDataService
                 'status' => $item['status'],
                 'home_team' => $item['homeTeam']['name'],
                 'home_team_logo' => $item['homeTeam']['crest'],
-                'home_team_score' => $item['score']['fullTime']['homeTeam'],
+                'home_team_score' => $item['score']['fullTime']['home'],
                 'away_team' => $item['awayTeam']['name'],
                 'away_team_logo' => $item['awayTeam']['crest'],
-                'away_team_score' => $item['score']['fullTime']['awayTeam'],
+                'away_team_score' => $item['score']['fullTime']['away'],
                 'matchday' => $item['matchday']
             ];
         }
